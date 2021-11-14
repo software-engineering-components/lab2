@@ -1,11 +1,12 @@
 package lab2
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
+
+type MySuite struct{}
 
 func TestPostfixToInfix(t *testing.T) {
 	res, err := postfixToInfix("+ 5 * - 4 2 3")
@@ -14,14 +15,14 @@ func TestPostfixToInfix(t *testing.T) {
 	}
 }
 
-func TestPostfixToInfix(t *testing.T) {
+func TestPostfixToInfix1(t *testing.T) {
 	res, err := postfixToInfix("ab+c*ef+g/+")
 	if assert.Nil(t, err) {
 		assert.Equal(t, "abc*de-/+", res)
 	}
 }
 
-func TestPostfixToInfix(t *testing.T) {
+func TestPostfixToInfix2(t *testing.T) {
 	res, err := postfixToInfix("x y ^ 5 z * / 10 +")
 	if assert.Nil(t, err) {
 		assert.Equal(t, "x ^ y / (5 * z) + 10", res)
