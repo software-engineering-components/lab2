@@ -21,9 +21,9 @@ func TestPostfixToInfix(t *testing.T) {
 	}
 }
 
-func ExamplePostfixToInfix() {
-	res, _ := postfixToInfix("ab+c*ef+g/+")
-	r, _ := postfixToInfix("+ 5 * - 4 2 3")
-
-	fmt.Println(res, r)
+func TestPostfixToInfix(t *testing.T) {
+	res, err := postfixToInfix("x y ^ 5 z * / 10 +")
+	if assert.Nil(t, err) {
+		assert.Equal(t, "x ^ y / (5 * z) + 10", res)
+	}
 }
