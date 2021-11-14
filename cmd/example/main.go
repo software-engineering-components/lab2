@@ -2,8 +2,8 @@ package main
 
 import (
 	"bytes"
-	"flag"
-	"io"
+  "flag"
+  "io"
 	"os"
 	"strings"
 	lab2 "github.com/software-engineering-components/lab2"
