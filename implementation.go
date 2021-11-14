@@ -1,85 +1,131 @@
 package lab2
 
 import (
-	"strings"
+	"fmt"
 )
 
-func IsOperator(c uint8) bool {
-	return strings.ContainsAny(string(c), "+ & - & * & /")
+type StackNode struct {
+	data string
+	next * StackNode
 }
-
-func IsOperand(c uint8) bool {
-	return c >= '0' && c <= '9'
-}
-
-func GetOperatorWeight(op string) int {
-	switch op {
-	case "+", "-":
-		return 1
-	case "*", "/":
-		return 2
+func getStackNode(data string, top * StackNode) * StackNode {
+	// return new StackNode
+	return &StackNode {
+		data,
+		top,
 	}
-	return -1
+}
+type MyStack struct {
+	top * StackNode
+	count int
+}
+func getMyStack() * MyStack {
+	// return new MyStack
+	return &MyStack {
+		nil,
+		0,
+	}
+}
+// Returns the number of element in stack
+func(this MyStack) size() int {
+	return this.count
+}
+func(this MyStack) isEmpty() bool {
+	if this.size() > 0 {
+		return false
+	} else {
+		return true
+	}
+}
+// Add a new element in stack
+func(this *MyStack) push(data string) {
+	// Make a new stack node
+	// And set as top
+	this.top = getStackNode(data, this.top)
+	// Increase node value
+	this.count++
+}
+// Add a top element in stack
+func(this *MyStack) pop() string {
+	var temp string = ""
+	if this.isEmpty() == false {
+		// Get remove top value
+		temp = this.top.data
+		this.top = this.top.next
+		// Reduce size
+		this.count--
+	}
+	return temp
+}
+// Used to get top element of stack
+func(this MyStack) peek() string {
+	if !this.isEmpty() {
+		return this.top.data
+	} else {
+		return ""
+	}
 }
 
-func HasHigherPrecedence(op1 string, op2 string) bool {
-	op1Weight := GetOperatorWeight(op1)
-	op2Weight := GetOperatorWeight(op2)
-	return op1Weight >= op2Weight
+// Check operator
+func isOperator(text byte) bool {
+	if text == '+' || text == '-' ||
+	   text == '*' || text == '/' ||
+	   text == '^' || text == '%' {
+		return true
+	}
+	return false
 }
-
-func ToPostfix(s string) string {
-
-	var stack Stack
-
-	postfix := ""
-
-	length := len(s)
-
-	for i := 0; i < length; i++ {
-
-		char := string(s[i])
-		if char == " " {
-			continue
-		}
-
-		if char == "(" {
-			stack.Push(char)
-		} else if char == ")" {
-			for !stack.Empty() {
-				str, _ := stack.Top().(string)
-				if str == "(" {
-					break
-				}
-				postfix += " " + str
-				stack.Pop()
+// Check operands
+func isOperands(text byte) bool {
+	if (text >= '0' && text <= '9') ||
+	   (text >= 'a' && text <= 'z') ||
+	   (text >= 'A' && text <= 'Z') {
+		return true
+	}
+	return false
+}
+// Converting the given postfix expression to
+// infix expression
+func postfixToInfix(postfix string) {
+	// Get the size
+	var size int = len(postfix)
+	// Create stack object
+	var s * MyStack = getMyStack()
+	// Some useful variables which is using
+	// of to storing current result
+	var auxiliary string = ""
+	var op1 string = ""
+	var op2 string = ""
+	var isValid bool = true
+	for i := 0 ; i < size && isValid ; i++ {
+		// Check whether given postfix location
+		// at [i] is an operator or not
+		if isOperator(postfix[i]) {
+			// When operator exist
+			// Check that two operands exist or not
+			if s.size() > 1 {
+				op1 = s.pop()
+				op2 = s.pop()
+				auxiliary = "(" + op2 + string(postfix[i]) + op1 + ")"
+				s.push(auxiliary)
+			} else {
+				isValid = false
 			}
-			stack.Pop()
-		} else if !IsOperator(s[i]) {
-			j := i
-			number := ""
-			for ; j < length && IsOperand(s[j]); j++ {
-				number = number + string(s[j])
-			}
-			postfix += " " + number
-			i = j - 1
+		} else if isOperands(postfix[i]) {
+			// When get valid operands
+			auxiliary = string(postfix[i])
+			s.push(auxiliary)
 		} else {
-			for !stack.Empty() {
-				top, _ := stack.Top().(string)
-				if top == "(" || !HasHigherPrecedence(top, char) {
-					break
-				}
-				postfix += " " + top
-				stack.Pop()
-			}
-			stack.Push(char)
+			// Invalid operands or operator
+			isValid = false
 		}
 	}
-
-	for !stack.Empty() {
-		str, _ := stack.Pop().(string)
-		postfix += " " + str
+	if isValid == false {
+		// When have something wrong
+		fmt.Println("Invalid postfix : ", postfix)
+	} else {
+		// Display calculated result
+		fmt.Println(" Postfix : ", postfix)
+		fmt.Println(" Infix   : ", s.pop())
 	}
-
-	return strings.TrimSpace(postfix)
 }
