@@ -7,8 +7,8 @@ import (
 )
 
 func (s *MySuite) Test12(c *C) {
-	testInput := "+ 5 * - 4 2 3"
-	var expectedOutput = "4"
+	testInput := "42-3*5+"
+	var expectedOutput = "(((4-2)*3)+5)"
 
 	input := strings.NewReader(testInput)
 	output := bytes.NewBufferString("")
@@ -38,7 +38,7 @@ func (s *MySuite) Test13(c *C) {
 }
 
 func (s *MySuite) Test14(c *C) {
-	testInput := "x y ^ 5 z * / 10 +"
+	testInput := "xy^5z*/10+"
 
 	input := strings.NewReader(testInput)
 	output := bytes.NewBufferString("")
