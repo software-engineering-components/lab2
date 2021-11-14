@@ -86,7 +86,7 @@ func isOperands(text byte) bool {
 }
 // Converting the given postfix expression to
 // infix expression
-func postfixToInfix(postfix string) {
+func postfixToInfix(postfix string) (string, error) {
 	// Get the size
 	var size int = len(postfix)
 	// Create stack object
@@ -122,10 +122,11 @@ func postfixToInfix(postfix string) {
 	}
 	if isValid == false {
 		// When have something wrong
-		fmt.Println("Invalid postfix : ", postfix)
+		return postfix, fmt.Errorf("Invalid postfix : ", postfix)
 	} else {
 		// Display calculated result
 		fmt.Println(" Postfix : ", postfix)
-		fmt.Println(" Infix   : ", s.pop())
+		// fmt.Println(" Infix   : ", s.pop())
+		return s.pop(), nil
 	}
 }

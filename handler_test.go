@@ -6,7 +6,7 @@ import (
 	. "gopkg.in/check.v1"
 )
 
-func (s *MySuite) Test12(c *C) {
+func Test1(c *C) {
 	testInput := "+ 5 * - 4 2 3"
 	var expectedOutput = "4"
 
@@ -18,11 +18,11 @@ func (s *MySuite) Test12(c *C) {
 	}
 
 	err := handler.Compute()
-	c.Assert(err, IsNil)
-	c.Assert(output.String(), Equals, expectedOutput)
+	t.Assert(err, IsNil)
+	t.Assert(output.String(), Equals, expectedOutput)
 }
 
-func (s *MySuite) Test13(c *C) {
+func Test2(t *testing.T) {
 	testInput := "ab+c*ef+g/+"
 
 	input := strings.NewReader(testInput)
@@ -33,11 +33,11 @@ func (s *MySuite) Test13(c *C) {
 	}
 
 	err := handler.Compute()
-	c.Assert(err, NotNil)
-	c.Assert(output.String(), Equals, "")
+	t.Assert(err, NotNil)
+	t.Assert(output.String(), Equals, "")
 }
 
-func (s *MySuite) Test14(c *C) {
+func Test3(t *testing.T) {
 	testInput := "x y ^ 5 z * / 10 +"
 
 	input := strings.NewReader(testInput)
@@ -48,11 +48,11 @@ func (s *MySuite) Test14(c *C) {
 	}
 
 	err := handler.Compute()
-	c.Assert(err, NotNil)
-	c.Assert(output.String(), Equals, "")
+	t.Assert(err, NotNil)
+	t.Assert(output.String(), Equals, "")
 }
 
-func (s *MySuite) Test15(c *C) {
+func Test4(t *testing.T) {
 	testInput := "+ ^ - a b"
 
 	input := strings.NewReader(testInput)
@@ -63,6 +63,6 @@ func (s *MySuite) Test15(c *C) {
 	}
 
 	err := handler.Compute()
-	c.Assert(err, NotNil)
-	c.Assert(output.String(), Equals, "")
+	t.Assert(err, NotNil)
+	t.Assert(output.String(), Equals, "")
 }
