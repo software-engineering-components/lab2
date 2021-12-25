@@ -131,11 +131,11 @@ func postfixToInfix(postfix string) (string, error) {
 	}
 	if isValid == false {
 		// When have something wrong
-		fmt.Println("Invalid postfix : ", postfix)
+		// fmt.Println("Invalid postfix : ", postfix)
 		return postfix, fmt.Errorf("invalid expression")
 	} else {
 		// Display calculated result
-		fmt.Println(" Postfix : ", postfix)
+		// fmt.Println(" Postfix : ", postfix)
 		return s.pop(), nil
 	}
 }
